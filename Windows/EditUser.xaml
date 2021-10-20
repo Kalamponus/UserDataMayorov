@@ -17,7 +17,7 @@
                     <TextBox x:Name="editDR" />
                 </GroupBox>
                 <GroupBox Header=" Пол">
-                    <TextBox  x:Name="editGender"/>
+                    <ListBox  x:Name="editGender" SelectionMode="Single"/>
                 </GroupBox>
                 <GroupBox Header="Качества личности">
                     <ListBox x:Name="editTraits" Height="70" SelectionMode="Multiple">

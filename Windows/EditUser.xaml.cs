@@ -34,15 +34,21 @@ namespace UserData.Windows
             {
                 editTraits.ItemsSource = BaseConnect.BaseModel.traits.ToList();                
                 editTraits.DisplayMemberPath = "trait";
+                editGender.ItemsSource = BaseConnect.BaseModel.genders.ToList();
+                editGender.DisplayMemberPath = "gender";
                 User = SelectedUser;
                 LUTT = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id).ToList();
                 List<users_to_traits> uttL = new List<users_to_traits>();
                 uttL = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id).ToList();
                 editName.Text = User.users.name.ToString();
                 editDR.Text = User.users.dr.ToString("yyyy MMMM dd");
-                editGender.Text = User.users.genders.gender.ToString();
-                
-                List<traits> Traits = BaseConnect.BaseModel.traits.ToList();
+                foreach(genders item in editGender.Items)
+                {
+                    if (item.id == User.users.gender)
+                    {
+                        editGender.SelectedItem = item;
+                    }
+                }
                 
                 foreach (users_to_traits UT in LUTT)
                 {
@@ -67,12 +73,16 @@ namespace UserData.Windows
             try
             {
 
-                //BaseConnect.BaseModel.users.Where(x => x.id == User.id).First().name = editName.ToString();
-                //BaseConnect.BaseModel.users.Where(x => x.id == User.id).First().dr = Convert.ToDateTime(editDR.Text);
-                //BaseConnect.BaseModel.users.Where(x => x.id == User.id).First().genders.gender = editGender.Text;
                 User.users.name = editName.Text;
                 User.users.dr = Convert.ToDateTime(editDR.Text.ToString());
-                User.users.genders.gender = editGender.Text;
+                if(editGender.SelectedItems.Count == 0)
+                {
+                    editGender.SelectedIndex = 0;
+                }
+                foreach(genders item in editGender.SelectedItems)
+                {
+                    User.users.gender = item.id;
+                }
                 if(editTraits.SelectedItems.Count > 0)
                 {
                     foreach (traits t in editTraits.SelectedItems)
