@@ -1,0 +1,32 @@
+﻿<Window x:Class="UserData.Windows.EditUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UserData.Windows"
+        mc:Ignorable="d"
+        Title="EditUser" Height="450" Width="800">
+
+    <Grid>
+        <GroupBox Header="Информация о пользователе" Margin="20">
+            <StackPanel>
+                <GroupBox Header="Имя">
+                    <TextBox x:Name="editName"/>
+                </GroupBox>
+                <GroupBox Header=" Дата рождения">
+                    <TextBox x:Name="editDR" />
+                </GroupBox>
+                <GroupBox Header=" Пол">
+                    <TextBox  x:Name="editGender"/>
+                </GroupBox>
+                <GroupBox Header="Качества личности">
+                    <ListBox x:Name="editTraits" Height="70" SelectionMode="Multiple">
+                        
+                    </ListBox>
+                </GroupBox>
+
+                <Button Content="Сохранить" Name="btnEdit" Click="btnEdit_Click"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
