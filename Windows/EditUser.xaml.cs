@@ -36,7 +36,8 @@ namespace UserData.Windows
                 editTraits.DisplayMemberPath = "trait";
                 User = SelectedUser;
                 LUTT = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id).ToList();
-                List<users_to_traits> uttL = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id).ToList();
+                List<users_to_traits> uttL = new List<users_to_traits>();
+                uttL = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id).ToList();
                 editName.Text = User.users.name.ToString();
                 editDR.Text = User.users.dr.ToString("yyyy MMMM dd");
                 editGender.Text = User.users.genders.gender.ToString();
@@ -72,19 +73,30 @@ namespace UserData.Windows
                 User.users.name = editName.Text;
                 User.users.dr = Convert.ToDateTime(editDR.Text.ToString());
                 User.users.genders.gender = editGender.Text;
-                foreach (traits t in editTraits.SelectedItems)
+                if(editTraits.SelectedItems.Count > 0)
                 {
-                    
-                    foreach(users_to_traits utt in LUTT)
-                    if (editTraits.SelectedItems.Contains(BaseConnect.BaseModel.traits.Where(x => x.id == utt.id_trait).First()) == false)
+                    foreach (traits t in editTraits.SelectedItems)
+                    {
+
+                        foreach (users_to_traits utt in LUTT)
+                            if (LUTT.Count != 0 && editTraits.SelectedItems.Contains(BaseConnect.BaseModel.traits.Where(x => x.id == utt.id_trait).First()) == false)
+                            {
+                                BaseConnect.BaseModel.users_to_traits.Remove(utt);
+                            }
+
+                    }
+                }
+                else
+                {
+                    foreach (users_to_traits utt in LUTT)
                     {
                         BaseConnect.BaseModel.users_to_traits.Remove(utt);
                     }
-
                 }
+                
                 foreach (traits t in editTraits.SelectedItems)
                 {
-                    if((LUTT.Count == 0)||(LUTT.Contains(BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id && x.id_trait == t.id).First()) == false))
+                    if((BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == User.id && x.id_trait == t.id)).Any() == false)
                     {
                         users_to_traits newUTT = new users_to_traits();
                         newUTT.id_trait = t.id;
