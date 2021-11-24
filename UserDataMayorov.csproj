@@ -71,6 +71,7 @@
     <Compile Include="auth.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="ChangingPage.cs" />
     <Compile Include="genders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -92,6 +93,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="users.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usersimage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="users_to_traits.cs">
@@ -198,6 +202,9 @@
   <ItemGroup>
     <Resource Include="Images\Banner.png" />
     <Resource Include="Images\Logo.png" />
+    <Resource Include="Images\Female.png" />
+    <Resource Include="Images\Male.png" />
+    <Resource Include="Images\Other.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

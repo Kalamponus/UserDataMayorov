@@ -35,20 +35,47 @@
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="55"/>
             <RowDefinition Height="397*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"  Orientation="Horizontal">
-            <GroupBox Header="от">
-                <TextBox Name="txtOT" Width="50"/>
-            </GroupBox>
-            <GroupBox Header="до">
-                <TextBox Name="txtDO" Width="50"/>
-            </GroupBox>
+            
             <Button Name="btnGo" Content="Вывести" Click="btnGo_Click" Width="50" Margin="5"/>
             <Button Name="btnReset" Content="Сброс" Click="btnReset_Click" Width="50" Margin="5"/>
             <Button Name="btnRedact" Content="Редактировать" Click="btnRedact_Click" Width="90" Margin="5"/>
+            <GroupBox Header="Пол" Width="50">
+                <ComboBox x:Name="lbGenderFilter" SelectionChanged="Filter"/>
+            </GroupBox>
+            <GroupBox Header="Имя">
+                <TextBox Name="txtNameFilter" TextChanged="Filter" Width="100"/>
+            </GroupBox>
+            <GroupBox Header="Сортировка">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <RadioButton Content ="по имени" Click="Sort_Click" Uid="name"/>
+                        <RadioButton Content ="по дате рождения" Click="Sort_Click" Uid="DR"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <RadioButton Content ="по возрастанию" Click="Sort_Click"/>
+                        <RadioButton x:Name="RBReverse" Content ="по убыванию" Click="Sort_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="сколько на странице">
+                <TextBox Name="txtPageCount" TextChanged="txtPageCount_TextChanged"/>
+            </GroupBox>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Name="txtPrev" Uid="prev" Text=" Пред. " MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txt1" Uid="1" Text="{Binding  Path = NPage[0], StringFormat={}{0,3}}" Visibility="{Binding Visible[0]}" FontWeight="{Binding Bold[0]}" MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txt2" Uid="2" Text="{Binding  Path = NPage[1], StringFormat={}{0,3}}" Visibility="{Binding Visible[1]}" FontWeight="{Binding Bold[1]}" MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txt3" Uid="3" Text="{Binding  Path = NPage[2], StringFormat={}{0,3}}" Visibility="{Binding Visible[2]}" FontWeight="{Binding Bold[2]}" MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txt4" Uid="4" Text="{Binding  Path = NPage[3], StringFormat={}{0,3}}" Visibility="{Binding Visible[3]}" FontWeight="{Binding Bold[3]}" MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txt5" Uid="5" Text="{Binding  Path = NPage[4], StringFormat={}{0,3}}" Visibility="{Binding Visible[4]}" FontWeight="{Binding Bold[4]}" MouseDown="GoPage_MouseDown"/>
+                <TextBlock Name="txtNext" Uid="next" Text=" След." MouseDown="GoPage_MouseDown"/>
+            </StackPanel>
+            <TextBlock Name="txtCurrentPage"/>
         </StackPanel>
+        
         <ListBox Name="lbUsersList" ItemTemplate="{StaticResource DT1}" Grid.Row="1"/>
     </Grid>
 </Page>
