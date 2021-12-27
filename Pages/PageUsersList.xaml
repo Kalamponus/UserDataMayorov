@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:UserData.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="840"
       Title="PageUsersList">
 
     <Page.Resources>
@@ -28,7 +28,7 @@
                     <ListBox Name="lbTraits" Loaded="lbTraits_Loaded" Uid="{Binding id}"/>
                     <!--loaded - событие, которое происходит при создании элемента списка из шаблона-->
                 </GroupBox>
-                <Image x:Name="UserImage" Loaded="UserImage_Loaded" Uid="{Binding id}"/>
+                <Image x:Name="UserImage" Loaded="UserImage_Loaded" Uid="{Binding id}" MouseDown="UserImage_MouseDown"/>
                 <Button x:Name="BtmAddImage" Content="Загрузить/изменить изображение пользователя" Click="BtmAddImage_Click" Uid="{Binding id}"/>
             </StackPanel>
         </DataTemplate>

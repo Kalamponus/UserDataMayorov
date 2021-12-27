@@ -27,6 +27,8 @@ namespace UserData
             mainFrame.Navigate(new login());
             LoadPages.MainFrame = mainFrame;
             BaseConnect.BaseModel = new Entities();
+            Windows.AnimationsSample animationsSample = new Windows.AnimationsSample();
+            animationsSample.Show();
         }
     }
 }

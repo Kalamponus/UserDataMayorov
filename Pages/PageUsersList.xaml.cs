@@ -131,19 +131,15 @@ namespace UserData.Pages
         }
         private void Filter(object sender, RoutedEventArgs e)
         {
-
-            //фильтр по полу
-            if (lbGenderFilter.SelectedValue != null)//если пункт из списка не выбран, то сам фильтр работать не будет
-            {
-                users1 = users1.Where(x => x.gender == (int)lbGenderFilter.SelectedValue).ToList();
-            }
-
             //фильтр по имени
             if (txtNameFilter.Text != "")
             {
-                users1 = users1.Where(x => x.name.Contains(txtNameFilter.Text)).ToList();
+                users1 = users.Where(x => x.name.Contains(txtNameFilter.Text)).ToList();
             }
-
+            if (lbGenderFilter.SelectedValue != null)//если пункт из списка не выбран, то сам фильтр работать не будет
+            {
+                users1 = users.Where(x => x.gender == (int)lbGenderFilter.SelectedValue).ToList();
+            }
             lbUsersList.ItemsSource = users1;// возвращаем результат в виде списка, к которому применялись активные фильтры
             cp.Countlist = users1.Count;//меняем количество элементов в списке для постраничной навигации
         }
@@ -188,6 +184,13 @@ namespace UserData.Pages
         private void btnRedact_Click(object sender, RoutedEventArgs e)
         {
             LoadPages.MainFrame.Navigate(new adminMenu());
+        }
+        private void UserImage_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.Image im = (System.Windows.Controls.Image)sender;
+            int index = Convert.ToInt32(im.Uid);
+            Windows.Gallery G = new Windows.Gallery(index);
+            G.Show();
         }
     }
 }
