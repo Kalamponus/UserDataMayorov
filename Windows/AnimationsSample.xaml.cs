@@ -25,8 +25,20 @@ namespace UserData.Windows
         {
             InitializeComponent();
             btnAnimation();
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
         }
-
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if ((videoFox.Source != null) && (videoFox.NaturalDuration.HasTimeSpan))
+            {
+                slPosition.Minimum = 0;
+                slPosition.Maximum = videoFox.NaturalDuration.TimeSpan.TotalSeconds;
+                slPosition.Value = videoFox.Position.TotalSeconds;
+            }
+        }
         public void Gif(object sender, EventArgs e)
         {
             //gifManul.MediaEnded += Gif;
@@ -89,37 +101,7 @@ namespace UserData.Windows
 
         private void slPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TimeSpan duration = videoFox.NaturalDuration.TimeSpan;//получаем длительность видео в формате timespan
-            double d = duration.TotalSeconds;// длительность в миллисекундах           
-            videoFox.Position = TimeSpan.FromSeconds(d * slPosition.Value);//установка конкретного значения
-
-        }
-
-        private TimeSpan TotalTime;
-
-       
-
-        private void videoFox_MediaOpened(object sender, RoutedEventArgs e)
-        {
-           
-            //TotalTime = videoFox.NaturalDuration.TimeSpan;
-            //slPosition.Maximum = videoFox.NaturalDuration.TimeSpan.TotalSeconds;
-            //MessageBox.Show(videoFox.NaturalDuration + " " + slPosition.Maximum);
-            //// Create a timer that will update the counters and the time slider
-            //DispatcherTimer timerVideoTime = new DispatcherTimer();
-            //timerVideoTime.Interval = TimeSpan.FromSeconds(1);
-            //timerVideoTime.Tick += new EventHandler(timer_Tick);
-            //timerVideoTime.Start();
-        }
-        
-        
-
-        //private void videoFox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (TotalTime.TotalSeconds > 0)
-        //    {
-        //        videoFox.Position = TimeSpan.FromSeconds(slPosition.Value * TotalTime.TotalSeconds);
-        //    }
-        //}
+            videoFox.Position = TimeSpan.FromSeconds(slPosition.Value);
+        }      
     }
 }

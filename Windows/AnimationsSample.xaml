@@ -24,12 +24,15 @@
             <Button Content="Стоп" Tag="Stop" Click="Button_Click" Width="100" Height="30"/>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+            <Label Content="Таймлайн"/>
             <Slider x:Name="slPosition" Grid.Row="2" Grid.Column="1" ValueChanged="slPosition_ValueChanged" Maximum="{Binding ElementName=videoFox, Path=NaturalDuration.TimeSpan.TotalSeconds}"/>
+            <Label Content="Громкость"/>
+            <Slider x:Name="slVolume" Grid.Row="2" Grid.Column="1" Maximum="1" Minimum="0" Value="0"/>
         </StackPanel>
         
 
         <MediaElement x:Name="gifManul" Source="Media/manul.gif" Grid.Column="1" Grid.Row="0" MediaEnded="Gif"/>
-        <MediaElement x:Name="videoFox" Source="Media/Fox.mp4" Grid.Column="1" Grid.Row="1" LoadedBehavior="Manual" MediaOpened="videoFox_MediaOpened"/>
+        <MediaElement x:Name="videoFox" Source="Media/Fox.mp4" Grid.Column="1" Grid.Row="1" LoadedBehavior="Manual" Volume="{Binding ElementName=slVolume, Path=Value}"/>
 
     </Grid>
 </Window>
