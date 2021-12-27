@@ -32,41 +32,41 @@ namespace UserData.Pages
             lbGenderFilter.SelectedValuePath = "id";
             lbGenderFilter.DisplayMemberPath = "gender";
             users1 = users;
-            DataContext = cp;//поместил объект в ресурсы страницы
+            DataContext = cp;
         }
 
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
         {
-            //senser содержит объект, который вызвал данное событие, но только у него объектный тип, надо преобразовать
-            ListBox lb = (ListBox)sender;//lb содержит ссылку на тот список, который вызвал это событие
-            int index = Convert.ToInt32(lb.Uid);//получаем ID элемента списка. в данном случае оно совпадает с id user
+  
+            ListBox lb = (ListBox)sender;
+            int index = Convert.ToInt32(lb.Uid);
             lb.ItemsSource = BaseConnect.BaseModel.users_to_traits.Where(x => x.id_user == index).ToList();
-            lb.DisplayMemberPath = "traits.trait";//показываем пользователю текстовое описание качества
+            lb.DisplayMemberPath = "traits.trait";
         }
         private void UserImage_Loaded(object sender, RoutedEventArgs e)
         {
             
             System.Windows.Controls.Image IMG = sender as System.Windows.Controls.Image;
             int ind = Convert.ToInt32(IMG.Uid);
-            users U = BaseConnect.BaseModel.users.FirstOrDefault(x => x.id == ind);//запись о текущем пользователе
-            usersimage UI = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind);//получаем запись о картинке для текущего пользователя
+            users U = BaseConnect.BaseModel.users.FirstOrDefault(x => x.id == ind);
+            usersimage UI = BaseConnect.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind);
             BitmapImage BI = new BitmapImage();
-            if (UI != null)//если для текущего пользователя существует запись о его катринке
+            if (UI != null)
             {
-                if (UI.path != null)//если присутствует путь к картинке
+                if (UI.path != null)
                 {
                     BI = new BitmapImage(new Uri(UI.path, UriKind.Relative));
                 }
-                else//если присутствуют двоичные данные
+                else
                 {
-                    BI.BeginInit();//начать инициализацию BitmapImage (для помещения данных из какого-либо потока)
-                    BI.StreamSource = new MemoryStream(UI.image);//помещаем в источник данных двоичные данные из потока
-                    BI.EndInit();//закончить инициализацию
+                    BI.BeginInit();
+                    BI.StreamSource = new MemoryStream(UI.image);
+                    BI.EndInit();
                 }
             }
-            else//если в базе не содержится картинки, то ставим заглушку
+            else
             {
-                switch (U.gender)//в зависимости от пола пользователя устанавливаем ту или иную картинку
+                switch (U.gender)
                 {
                     case 1:
                         BI = new BitmapImage(new Uri(@"/Images/Male.png", UriKind.Relative));
@@ -79,24 +79,24 @@ namespace UserData.Pages
                         break;
                 }
             }
-            IMG.Source = BI;//помещаем картинку в image
+            IMG.Source = BI;
         }
         private void BtmAddImage_Click(object sender, RoutedEventArgs e)
         {
             Button BTN = (Button)sender;
             int ind = Convert.ToInt32(BTN.Uid);
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".jpg"; // задаем расширение по умолчанию
-            openFileDialog.Filter = "Изображения |*.jpg;*.png"; // задаем фильтр на форматы файлов
+            openFileDialog.DefaultExt = ".jpg"; 
+            openFileDialog.Filter = "Изображения |*.jpg;*.png"; 
             var result = openFileDialog.ShowDialog();
             if (result == true)//если файл выбран
             {
-                System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
-                ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
-                byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
-                usersimage UI = new usersimage() { id_user = ind, image = ByteArr };//создаем новый объект usersimage
-                BaseConnect.BaseModel.usersimage.Add(UI);//добавляем его в модель
-                BaseConnect.BaseModel.SaveChanges();//синхронизируем с базой
+                System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);
+                ImageConverter IC = new ImageConverter();
+                byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));
+                usersimage UI = new usersimage() { id_user = ind, image = ByteArr };
+                BaseConnect.BaseModel.usersimage.Add(UI);
+                BaseConnect.BaseModel.SaveChanges();
                 MessageBox.Show("Изображение добавлено в базу");
             }
             else
@@ -106,8 +106,8 @@ namespace UserData.Pages
         }
         private void GoPage_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock tb = (TextBlock)sender;//определяем, какой текстовый блок был нажат           
-            //изменение номера страници при нажатии на кнопку
+            TextBlock tb = (TextBlock)sender;      
+
             switch (tb.Uid)
             {
                 case "prev":
@@ -136,12 +136,12 @@ namespace UserData.Pages
             {
                 users1 = users.Where(x => x.name.Contains(txtNameFilter.Text)).ToList();
             }
-            if (lbGenderFilter.SelectedValue != null)//если пункт из списка не выбран, то сам фильтр работать не будет
+            if (lbGenderFilter.SelectedValue != null)
             {
                 users1 = users.Where(x => x.gender == (int)lbGenderFilter.SelectedValue).ToList();
             }
-            lbUsersList.ItemsSource = users1;// возвращаем результат в виде списка, к которому применялись активные фильтры
-            cp.Countlist = users1.Count;//меняем количество элементов в списке для постраничной навигации
+            lbUsersList.ItemsSource = users1;
+            cp.Countlist = users1.Count;
         }
         private void txtPageCount_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -178,7 +178,7 @@ namespace UserData.Pages
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            lbUsersList.ItemsSource = users;//в качестве источника данных новый список
+            lbUsersList.ItemsSource = users;
         }
 
         private void btnRedact_Click(object sender, RoutedEventArgs e)

@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace UserData.Windows
@@ -22,6 +23,53 @@ namespace UserData.Windows
         public Diagram()
         {
             InitializeComponent();
+        }
+
+        private void gridDiagram_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double maxX = gridDiagram.ActualWidth;//получаем текущую ширину и высоту
+            double maxY = gridDiagram.ActualHeight;
+            gridDiagram.Children.Clear();//очишаем графическое поле
+            gridDiagram.Children.Add(line(maxX / 20, maxY / 20, maxX / 20, maxY - maxY / 20));//помещаем созданный объект на grid
+            gridDiagram.Children.Add(line(maxX / 20, maxY - maxY / 20, maxX - maxX / 20, maxY - maxY / 20));
+            double count = 20, stepX = (maxX - maxX / 10) / count, stepY = (maxY - maxY / 10) / count;
+            int i = 0;
+            foreach(var gender in BaseConnect.BaseModel.genders)
+            {
+                var gCount = BaseConnect.BaseModel.users.Where(x => x.gender == gender.id).Count();
+                Line L = line(maxX / 20 + stepX * i, maxY - maxY / 20, maxX / 20 + stepX * i, maxY - maxY / 20 - gCount);
+                L.Stroke = Brushes.Orange;
+                L.StrokeThickness = maxX / 100;
+                gridDiagram.Children.Add(L);
+                TextBlock TB = new TextBlock();
+                TB.Margin = new Thickness(maxX / 20 + stepX * i, maxY - maxY / 20 - stepY * i, 0, 0);
+                TB.Text = gender.gender + "\n" + gCount;
+                gridDiagram.Children.Add(TB);
+                //gridDiagram.Children.Add(polygon(maxX / 20 * i, (maxY - maxY / 20) * i, maxX / 20 * i + maxX / 40, maxY / 20));
+                i++;
+            }
+        }
+
+        private Line line(double x1, double y1, double x2, double y2)
+        {
+            Line L = new Line();
+            L.X1 = x1;
+            L.Y1 = y1;
+            L.X2 = x2;
+            L.Y2 = y2;
+            L.Stroke = Brushes.Black;
+            return L;
+        }
+
+        private Polygon polygon(double x1, double y1, double x2, double y2)
+        {
+            Polygon P = new Polygon();
+            P.Points.Add(new Point(x1, y1));
+            P.Points.Add(new Point(x1, y2));
+            P.Points.Add(new Point(x2, y2));
+            P.Points.Add(new Point(x2, y1));
+            P.Stroke = Brushes.Aqua;
+            return P;
         }
     }
 }

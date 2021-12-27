@@ -9,6 +9,9 @@
       Title="PageUsersList">
 
     <Page.Resources>
+        <Style x:Key="StyleBtn">
+            <Setter Property="ItemsControl.Background" Value="Orange"/>
+        </Style>
         <DataTemplate x:Key="DT1">
             <!--Шаблон для вывода информации о пользователе-->
             <StackPanel>
@@ -39,10 +42,10 @@
             <RowDefinition Height="397*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"  Orientation="Horizontal">
-            
-            <Button Name="btnGo" Content="Вывести" Click="btnGo_Click" Width="50" Margin="5"/>
-            <Button Name="btnReset" Content="Сброс" Click="btnReset_Click" Width="50" Margin="5"/>
-            <Button Name="btnRedact" Content="Редактировать" Click="btnRedact_Click" Width="90" Margin="5"/>
+
+            <Button Name="btnGo" Content="Вывести" Click="Filter" Width="50" Margin="5" Style="{StaticResource StyleBtn}"/>
+            <Button Name="btnReset" Content="Сброс" Click="btnReset_Click" Width="50" Margin="5" Style="{StaticResource StyleBtn}"/>
+            <Button Name="btnRedact" Content="Редактировать" Click="btnRedact_Click" Width="90" Margin="5" Style="{StaticResource StyleBtn}"/>
             <GroupBox Header="Пол" Width="50">
                 <ComboBox x:Name="lbGenderFilter" SelectionChanged="Filter"/>
             </GroupBox>

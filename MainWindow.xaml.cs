@@ -29,6 +29,8 @@ namespace UserData
             BaseConnect.BaseModel = new Entities();
             Windows.AnimationsSample animationsSample = new Windows.AnimationsSample();
             animationsSample.Show();
+            Windows.Diagram diagram = new Windows.Diagram();
+            diagram.Show();
         }
     }
 }
